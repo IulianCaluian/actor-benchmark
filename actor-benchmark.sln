@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartActorCore", "IoTActorCore\SmartActorCore.csproj", "{1239AD44-BF2B-417D-9911-CC5A535D15FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartActorCore", "SmartActorCore\SmartActorCore.csproj", "{1239AD44-BF2B-417D-9911-CC5A535D15FD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartActorCore.Testing", "SmartActorCore.Testing\SmartActorCore.Testing.csproj", "{5C52870D-4572-475A-A298-759544FF8371}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoActor", "ProtoActor\ProtoActor.csproj", "{8EE506D0-AC4F-4E49-8C35-4474560A4195}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleActorBenchmark", "ConsoleActorBenchmark\ConsoleActorBenchmark.csproj", "{6A6A081F-269A-4441-9BB6-6214D7CFF725}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{1239AD44-BF2B-417D-9911-CC5A535D15FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1239AD44-BF2B-417D-9911-CC5A535D15FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1239AD44-BF2B-417D-9911-CC5A535D15FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C52870D-4572-475A-A298-759544FF8371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C52870D-4572-475A-A298-759544FF8371}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C52870D-4572-475A-A298-759544FF8371}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C52870D-4572-475A-A298-759544FF8371}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EE506D0-AC4F-4E49-8C35-4474560A4195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EE506D0-AC4F-4E49-8C35-4474560A4195}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EE506D0-AC4F-4E49-8C35-4474560A4195}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EE506D0-AC4F-4E49-8C35-4474560A4195}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A6A081F-269A-4441-9BB6-6214D7CFF725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A6A081F-269A-4441-9BB6-6214D7CFF725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A6A081F-269A-4441-9BB6-6214D7CFF725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A6A081F-269A-4441-9BB6-6214D7CFF725}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
