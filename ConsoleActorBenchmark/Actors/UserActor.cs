@@ -4,6 +4,7 @@ using Proto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +13,16 @@ namespace ConsoleActorBenchmark.Actors
     public class UserActor : IActor
     {
         private string _currentlyWatching;
+        private int _id;
+        private readonly PID _moviePlayCounterActorRef;
 
         private readonly Behavior _behavior;
 
-        public UserActor()
+        public UserActor(int id, PID moviePlayCounterActorRef)
         {
+            _id = id;
+            _moviePlayCounterActorRef = moviePlayCounterActorRef;
+
             Console.WriteLine("Creating a UserActor");
             ColorConsole.WriteLineCyan("Setting initial behavior to stopped");
             _behavior = new Behavior(Stopped);
@@ -49,7 +55,9 @@ namespace ConsoleActorBenchmark.Actors
                 case PlayMovieMessage msg:
                     _currentlyWatching = msg.MovieTitle;
                     ColorConsole.WriteLineYellow($"User is currently watching '{_currentlyWatching}'");
+                    context.Send(_moviePlayCounterActorRef, new IncrementPlayCountMessage(_currentlyWatching));
                     _behavior.Become(Playing);
+             
                     break;
                 case StopMovieMessage msg:
                     ColorConsole.WriteLineRed("Error: cannot stop if nothing is playing");

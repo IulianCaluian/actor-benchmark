@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Proto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace ConsoleActorBenchmark.Messages
 {
-    internal class StopMovieMessage
+    public class ResponseActorPidMessage
     {
+        public PID Pid { get; }
 
-        public int UserId { get; }
-
-        public StopMovieMessage(int userId)
+        public ResponseActorPidMessage(PID pid)
         {
-            UserId = userId;
+            Pid = pid;
         }
     }
 }

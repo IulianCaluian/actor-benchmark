@@ -11,17 +11,24 @@ namespace ConsoleActorBenchmark.Actors
 {
     public class PlaybackActor : IActor
     {
+        private PID _moviePlayCounterActorRef;
+        private PID _userCoordinatorActorRef;
+
         public PlaybackActor() => Console.WriteLine("Creating a PlaybackActor");
         public Task ReceiveAsync(IContext context)
         {
             switch (context.Message)
             {
                 case Started msg:
-                    ProcessStartedMessage(msg);
+                    ProcessStartedMessage(context, msg);
                     break;
 
                 case PlayMovieMessage msg:
-                    ProcessPlayMovieMessage(msg);
+                    ProcessPlayMovieMessage(context, msg);      
+                    break;
+
+                case StopMovieMessage msg:
+                    ProcessStopMovieMessage(context, msg);
                     break;
 
                 case Recoverable msg:
@@ -36,18 +43,43 @@ namespace ConsoleActorBenchmark.Actors
                 case Stopped msg:
                     Console.WriteLine("actor is Stopped");
                     break;
+
+                case IncrementPlayCountMessage:
+                    // pid_playbackStatistics
+
+                    Console.WriteLine("Try to send statistics");
+                    break;
+
+                case RequestActorPidMessage msg:
+                    ProcessRequestActorPidMessage(context, msg);
+                    break;
             }
             return Task.CompletedTask;
         }
 
-        private void ProcessPlayMovieMessage(PlayMovieMessage msg)
+  
+
+        private void ProcessStopMovieMessage(IContext context, StopMovieMessage msg)
         {
-            ColorConsole.WriteLineYellow($"PlayMovieMessage {msg.MovieTitle} for user {msg.UserId}");
+            ColorConsole.WriteLineYellow($"StopMovieMessage for user {msg.UserId}");
+
+            context.Send(_userCoordinatorActorRef, msg);
         }
 
-        private void ProcessStartedMessage(Started msg)
+        private void ProcessPlayMovieMessage(IContext context,  PlayMovieMessage msg)
+        {
+            ColorConsole.WriteLineYellow($"PlayMovieMessage {msg.MovieTitle}  for user {msg.UserId}");
+            context.Send(_userCoordinatorActorRef, msg);
+        }
+
+        private void ProcessStartedMessage(IContext context, Started msg)
         {
             ColorConsole.WriteLineGreen("PlaybackActor Started");
+
+            var moviePlayCounterActorProps = Props.FromProducer(() => new MoviePlayCounterActor());
+            _moviePlayCounterActorRef = context.Spawn(moviePlayCounterActorProps);
+
+            _userCoordinatorActorRef = context.Spawn(Props.FromProducer(() => new UserCoordinatorActor(_moviePlayCounterActorRef)));
         }
 
         private void ProcessStoppingMessage(Stopping msg)
@@ -57,6 +89,8 @@ namespace ConsoleActorBenchmark.Actors
 
         private void ProcessRecoverableMessage(IContext context, Recoverable msg)
         {
+
+
             PID child;
 
             if (context.Children == null || context.Children.Count == 0)
@@ -70,6 +104,12 @@ namespace ConsoleActorBenchmark.Actors
             }
 
             context.Forward(child);
+        }
+
+
+        private void ProcessRequestActorPidMessage(IContext context, RequestActorPidMessage msg)
+        {
+            context.Respond(new ResponseActorPidMessage(_userCoordinatorActorRef));
         }
     }
 }

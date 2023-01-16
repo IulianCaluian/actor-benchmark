@@ -6,14 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleActorBenchmark.Messages
 {
-    internal class StopMovieMessage
+    internal class RequestActorPidMessage
     {
-
-        public int UserId { get; }
-
-        public StopMovieMessage(int userId)
-        {
-            UserId = userId;
-        }
     }
 }

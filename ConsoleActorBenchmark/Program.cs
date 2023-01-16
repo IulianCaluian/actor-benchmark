@@ -1,18 +1,25 @@
 ﻿using ConsoleActorBenchmark;
 using Proto;
 using Proto.Mailbox;
+using System.Net.Sockets;
+using System.Net;
+using System.Text;
 
 internal class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         // TestingPropertiesAndMiddleware.Execute();
         //  TestingContext.Execute();
 
         // protoactor_bootcamp.Execute();
         // protoactor_bootcamp.ExecutePoisonPill();
-        protoactor_bootcamp.ExecuteBehavior();
+        // protoactor_bootcamp.ExecuteBehavior();
+       await protoactor_bootcamp.ExecuteHierarchyAsync();
+
     }
+
+ 
 
 
 }
