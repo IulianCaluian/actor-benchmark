@@ -2,6 +2,7 @@
 using ConsoleActorBenchmark.Messages;
 using ConsoleActorBenchmark.Utils;
 using Proto;
+using Proto.Router;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,50 @@ namespace ConsoleActorBenchmark
 {
     public class protoactor_bootcamp
     {
+
+        private static readonly Props MyActorProps = Props.FromProducer(() => new MyActor());
+        public async static Task ExecuteRouterPool()
+        {
+      
+
+        var system = new ActorSystem();
+        var context = new RootContext(system);
+        var props = context.NewBroadcastPool(MyActorProps, 5);
+        var pid = context.Spawn(props);
+            for (var i = 0; i< 10; i++)
+            {
+                context.Send(pid, new Message ( $"{i % 4}" ));
+            }
+
+
+            Console.ReadKey();
+        }
+
+        public async static Task ExecuteRouterGroup()
+        {
+
+
+            var system = new ActorSystem();
+            var context = new RootContext(system);
+            var props = context.NewBroadcastGroup(
+                context.Spawn(MyActorProps),
+                context.Spawn(MyActorProps),
+                context.Spawn(MyActorProps),
+                context.Spawn(MyActorProps)
+            );
+
+            //var pid = context.Spawn(props);
+
+            for (var i = 0; i < 10; i++)
+            {
+                var pid = context.Spawn(props);
+                Console.WriteLine($"at {i} spwan: {pid}");
+                context.Send(pid, new Message($"{i}"));
+            }
+
+
+            Console.ReadKey();
+        }
 
         public async static Task ExecuteHierarchyAsync()
         {
