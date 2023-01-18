@@ -14,6 +14,33 @@ namespace ConsoleActorBenchmark
     public class protoactor_bootcamp
     {
 
+        public class Echo : IActor
+        {
+            public Task ReceiveAsync(IContext context)
+            {
+                return Task.CompletedTask;
+            }
+        }
+
+        public class TestMessage{
+            }
+
+        public static async Task ExecuteEventStream()
+        {
+            var system = new ActorSystem();
+            var props = Props.FromProducer(() => new Echo());
+            var pid = system.Root.Spawn(props);
+
+            system.EventStream.Subscribe<DeadLetterEvent>(msg => Console.WriteLine($"Sender: {msg.Sender}, Pid: {msg.Pid}, Message: {msg.Message}"));
+
+            system.Root.Send(pid, new TestMessage());
+            await system.Root.PoisonAsync(pid);
+            system.Root.Send(pid, new TestMessage());
+
+            Console.ReadLine();
+        }
+
+
         private static readonly Props MyActorProps = Props.FromProducer(() => new MyActor());
         public async static Task ExecuteRouterPool()
         {

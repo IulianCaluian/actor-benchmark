@@ -17,7 +17,8 @@ internal class Program
         // protoactor_bootcamp.ExecuteBehavior();
         // await protoactor_bootcamp.ExecuteHierarchyAsync();
         // await protoactor_bootcamp.ExecuteRouterPool();
-        await protoactor_bootcamp.ExecuteRouterGroup();
+        //  await protoactor_bootcamp.ExecuteRouterGroup();
+        await protoactor_bootcamp.ExecuteEventStream();
     }
 
  
