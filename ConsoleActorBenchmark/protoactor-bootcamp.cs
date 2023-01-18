@@ -2,28 +2,46 @@
 using ConsoleActorBenchmark.Messages;
 using ConsoleActorBenchmark.Utils;
 using Proto;
-using Proto.Router;
+using Proto.Remote;
+using Proto.Remote.GrpcNet;
+using static Proto.Remote.GrpcNet.GrpcNetRemoteConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Proto.Router;
 
 namespace ConsoleActorBenchmark
 {
     public class protoactor_bootcamp
     {
 
-        public class Echo : IActor
+
+        public static async Task ExecuteRemoteServer()
         {
-            public Task ReceiveAsync(IContext context)
+            var clients = new HashSet<PID>();
+
+            var system = new ActorSystem();
+            var props = Props.FromFunc(ctx =>
             {
+                switch(ctx.Message)
+                {
+                    case chat.messages.Connect connect:
+                      //  Console.WriteLine($"Client {connect.Sender} connected");
+                     //  clients.Add(connect.Sender);
+                       break;
+                }
                 return Task.CompletedTask;
-            }
+            });
+            system.Root.SpawnNamed(props, "chatserver");
+
+
         }
 
-        public class TestMessage{
-            }
+
+
+
 
         public static async Task ExecuteEventStream()
         {
@@ -33,9 +51,9 @@ namespace ConsoleActorBenchmark
 
             system.EventStream.Subscribe<DeadLetterEvent>(msg => Console.WriteLine($"Sender: {msg.Sender}, Pid: {msg.Pid}, Message: {msg.Message}"));
 
-            system.Root.Send(pid, new TestMessage());
+            system.Root.Send(pid, "bla");
             await system.Root.PoisonAsync(pid);
-            system.Root.Send(pid, new TestMessage());
+            system.Root.Send(pid, "bla");
 
             Console.ReadLine();
         }

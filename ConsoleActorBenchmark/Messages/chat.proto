@@ -1,0 +1,70 @@
+﻿syntax = "proto3";
+package Messages;
+option csharp_namespace = "chat.messages";
+
+import "Messages/actor.proto";
+
+message PoisonPill {
+}
+
+message DeadLetterResponse {
+    PID Target = 1;
+}
+
+message Watch {
+    PID Watcher = 1;
+}
+
+message Unwatch {
+    PID Watcher = 1;
+}
+
+message Terminated {
+    PID who = 1;
+    TerminatedReason Why = 2;
+}
+
+enum TerminatedReason {
+   Stopped = 0;
+   AddressTerminated = 1;
+   NotFound = 2;
+}
+
+message Stop {
+}
+
+message Touch {
+}
+
+message Touched {
+  PID who = 1;
+}
+
+message Connect
+{
+	PID Sender = 1;
+}
+
+message Connected {
+    string Message = 1;
+}
+
+message SayRequest {
+    string UserName = 1;
+    string Message = 2;
+}
+
+message SayResponse {
+    string UserName = 1;
+    string Message = 2;
+}
+
+message NickRequest {
+    string OldUserName = 1;
+    string NewUserName = 2;
+}
+
+message NickResponse {
+    string OldUserName = 1;
+    string NewUserName = 2;
+}

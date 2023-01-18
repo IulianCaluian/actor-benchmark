@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+package Messages;
+option csharp_namespace = "chat.messages";
+
+
+
+message PID {
+   
+    string Address = 1;
+    string Id = 2;
+}
