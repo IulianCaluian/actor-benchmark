@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <None Remove="Messages\actor.proto" />
+    <None Remove="Messages\calculator.proto" />
     <None Remove="Messages\chat.proto" />
   </ItemGroup>
 
@@ -19,17 +20,21 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.2" />
     <PackageReference Include="Proto.Actor" Version="1.0.0" />
+    <PackageReference Include="Proto.Persistence.Sqlite" Version="1.0.0" />
     <PackageReference Include="Proto.Remote" Version="1.0.0" />
     <PackageReference Include="protobuf-net" Version="3.1.26" />
     <PackageReference Include="protobuf-net.BuildTools" Version="3.1.25">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="SQLite" Version="3.13.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Protobuf Include="Messages\actor.proto" />
+    <Protobuf Include="Messages\calculator.proto" />
     <Protobuf Include="Messages\chat.proto" GrpcServices="Server" />
   </ItemGroup>
 

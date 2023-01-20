@@ -11,11 +11,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proto.Router;
+using Proto.Persistence.Sqlite;
+using Microsoft.Data.Sqlite;
+using Messages;
 
 namespace ConsoleActorBenchmark
 {
     public class protoactor_bootcamp
     {
+
+        public static async Task ExecutePersistenceActors()
+        {
+            var system = new ActorSystem();
+            var context = new RootContext(system);
+            var provider = new SqliteProvider(new SqliteConnectionStringBuilder { DataSource = "states.db" });
+
+            var props = Props.FromProducer(() => new Calculator(provider));
+
+            var pid1 = context.Spawn(props);
+
+            system.Root.Send(pid1, new AddCommand { Value = 100 });
+            system.Root.Send(pid1, new SubtractCommand { Value = 50 });
+
+            Console.ReadKey();
+            system.Root.Send(pid1, new PrintResultCommand());
+
+
+            system.Root.Poison(pid1);
+
+
+            var pid2 = context.Spawn(props);
+
+            Console.ReadKey();
+            system.Root.Send(pid2, new PrintResultCommand());
+            Console.ReadLine();
+
+        }
 
 
         public static async Task ExecuteRemoteServer()
